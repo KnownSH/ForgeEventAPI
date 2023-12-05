@@ -5,8 +5,20 @@ A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
 
 ### Currently added built-in events
 <details>
+
+  ### Common
+  
   | Event | Ported | Reason |
   | :---- | :----: | :----- |
-  | BlockEvent.BreakEvent | ✅ | |
+  | BlockEvent.BreakEvent | ✅
+  | LivingChangeTargetEvent | ✅
+  | LivingDamageEvent | ✅
+  | LivingDeathEvent | ✅
+  | LivingTickEvent | ✅
+
+  ### Client
+  | Event | Ported | Reason |
+  | :---- | :----: | :----- |
+  | RenderLevelStageEvent | ✅
   
 </details>
