@@ -13,6 +13,6 @@ public class NeoForge implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
+		//placeholder
 	}
 }
