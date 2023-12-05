@@ -1,4 +1,4 @@
-package net.knsh.neoforged.fabric.accessors;
+package net.knsh.neoforged.accessors;
 
 import net.minecraft.client.renderer.culling.Frustum;
 

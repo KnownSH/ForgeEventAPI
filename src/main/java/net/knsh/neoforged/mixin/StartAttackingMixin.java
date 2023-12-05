@@ -1,4 +1,4 @@
-package net.knsh.neoforged.fabric.mixin;
+package net.knsh.neoforged.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;

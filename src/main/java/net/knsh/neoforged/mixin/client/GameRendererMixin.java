@@ -1,9 +1,9 @@
-package net.knsh.neoforged.fabric.mixin.client;
+package net.knsh.neoforged.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.knsh.neoforged.fabric.accessors.LevelRendererAccessor;
+import net.knsh.neoforged.accessors.LevelRendererAccessor;
 import net.knsh.neoforged.neoforge.client.ClientHooks;
 import net.knsh.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.minecraft.client.Camera;

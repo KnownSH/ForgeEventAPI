@@ -1,4 +1,4 @@
-package net.knsh.neoforged.fabric.mixin;
+package net.knsh.neoforged.mixin;
 
 import net.knsh.neoforged.neoforge.common.CommonHooks;
 import net.minecraft.core.BlockPos;

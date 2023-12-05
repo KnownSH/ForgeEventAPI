@@ -1,5 +1,6 @@
-package net.knsh.neoforged.fabric.mixin.client;
+package net.knsh.neoforged.mixin.client;
 
+import net.knsh.neoforged.accessors.MinecraftAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Timer;
 import org.spongepowered.asm.mixin.Final;
@@ -11,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Minecraft.class)
-public abstract class MinecraftMixin {
+public class MinecraftMixin implements MinecraftAccessor {
     @Shadow private volatile boolean pause;
     @Shadow private float pausePartialTick;
     @Shadow @Final private Timer timer;

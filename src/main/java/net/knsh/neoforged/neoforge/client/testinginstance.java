@@ -8,9 +8,4 @@ public class testinginstance {
     public testinginstance() {
         NeoForge.EVENT_BUS.register(this);
     }
-
-    @SubscribeEvent
-    public void onRender(RenderLevelStageEvent event) {
-        NeoForge.LOGGER.info("RenderLevelStageEvent fired" + event.getStage().toString());
-    }
 }

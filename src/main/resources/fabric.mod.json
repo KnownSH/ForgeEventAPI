@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
 			"net.knsh.neoforged.NeoForge"
+		],
+		"client": [
+			"net.knsh.neoforged.neoforge.client.testingClient"
 		]
 	},
 	"mixins": [
