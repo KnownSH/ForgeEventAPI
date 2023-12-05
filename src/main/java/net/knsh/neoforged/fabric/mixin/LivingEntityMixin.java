@@ -1,4 +1,4 @@
-package net.knsh.neoforged.mixin;
+package net.knsh.neoforged.fabric.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.knsh.neoforged.neoforge.common.CommonHooks;
@@ -23,7 +23,7 @@ public abstract class LivingEntityMixin {
                     target = "Lnet/minecraft/world/damagesource/DamageSource;getEntity()Lnet/minecraft/world/entity/Entity;"
             ),
             ordinal = 1)
-    private float cyclic$onLivingDamageEvent(float DamageAmount, @Local(ordinal = 0) DamageSource damageSource) {
+    private float forgeevents$onLivingDamageEvent(float DamageAmount, @Local(ordinal = 0) DamageSource damageSource) {
         LivingDamageEvent livingDamageEvent = CommonHooks.onLivingDamage(entity, damageSource, DamageAmount);
         if (!livingDamageEvent.isCanceled()) {
             return livingDamageEvent.getAmount();
@@ -32,9 +32,14 @@ public abstract class LivingEntityMixin {
     }
 
     @Inject(method = "die", at = @At("HEAD"), cancellable = true)
-    private void cyclic$onLivingDeathEvent(DamageSource damageSource, CallbackInfo ci) {
+    private void forgeevents$onLivingDeathEvent(DamageSource damageSource, CallbackInfo ci) {
         if (CommonHooks.onLivingDeath(entity, damageSource)) {
             ci.cancel();
         }
+    }
+
+    @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
+    private void forgeevents$onLivingTickEvent(CallbackInfo ci) {
+        if (CommonHooks.onLivingTick(entity)) ci.cancel();
     }
 }

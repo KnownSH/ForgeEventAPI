@@ -1,4 +1,4 @@
-package net.knsh.neoforged.mixin;
+package net.knsh.neoforged.fabric.mixin;
 
 import net.knsh.neoforged.neoforge.common.CommonHooks;
 import net.minecraft.world.damagesource.DamageSource;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Player.class)
 public class PlayerMixin {
     @Inject(method = "die", at = @At("HEAD"), cancellable = true)
-    private void cyclic$onPlayerDeathEvent(DamageSource damageSource, CallbackInfo ci) {
+    private void forgeevents$onPlayerDeathEvent(DamageSource damageSource, CallbackInfo ci) {
         if (CommonHooks.onLivingDeath((Player) (Object) this, damageSource)) {
             ci.cancel();
         }

@@ -1,4 +1,4 @@
-package net.knsh.neoforged.mixin;
+package net.knsh.neoforged.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -18,7 +18,7 @@ public class MobMixin {
                     value = "FIELD",
                     target = "Lnet/minecraft/world/entity/Mob;target:Lnet/minecraft/world/entity/LivingEntity;",
                     opcode = Opcodes.PUTFIELD))
-    private void cyclic$onSetTarget(Mob instance, LivingEntity value, Operation<LivingEntity> original) {
+    private void forgeevents$onSetTarget(Mob instance, LivingEntity value, Operation<LivingEntity> original) {
         LivingChangeTargetEvent changeTargetEvent = CommonHooks.onLivingChangeTarget(instance, value, LivingChangeTargetEvent.LivingTargetType.MOB_TARGET);
         if (!changeTargetEvent.isCanceled()) {
             original.call(instance, changeTargetEvent.getNewTarget());
