@@ -16,7 +16,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"net.knsh.neoforged.Forgeeventapi"
+			"net.knsh.neoforged.NeoForge"
 		]
 	},
 	"mixins": [
