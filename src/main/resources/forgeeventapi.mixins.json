@@ -3,7 +3,12 @@
 	"package": "net.knsh.neoforged.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
+		"LivingEntityMixin",
+		"MobMixin",
+		"PlayerMixin",
+		"ServerPlayerGameModeMixin",
+		"ServerPlayerMixin",
+		"StartAttackingMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
