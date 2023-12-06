@@ -8,15 +8,17 @@ A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
 
   ### Common
   
-  | Event | Ported | Info |
-  | :---- | :----: | :----- |
+  | Event | Ported | All Sub-events Added |
+  | :---- | :----: | :-----: |
   | BlockEvent.BreakEvent | ✅
+  | ExplosionEvent | ✅ | ✅
   | LivingChangeTargetEvent | ✅
   | LivingDamageEvent | ✅
   | LivingDeathEvent | ✅
   | LivingExperienceDropEvent | ✅
   | LivingTickEvent | ✅
-  | MobEffectEvent | ✅ | All Sub-events added
+  | MobEffectEvent | ✅ | ✅
+  | MobSpawnEvent | ✅ | ✅
 
   ### Client
   | Event | Ported | Reason |
