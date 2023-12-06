@@ -24,7 +24,7 @@ public class ExplosionMixin {
             method = "explode",
             at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/level/Level;getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;")
     )
-    private void forgeevents$explode$eventCall(CallbackInfo ci, @Local List<Entity> list) {
+    private void neoforged$explode$eventCall(CallbackInfo ci, @Local List<Entity> list) {
         EventHooks.onExplosionDetonate(this.level, (Explosion) (Object) this, list, this.radius * 2.0F);
     }
 }

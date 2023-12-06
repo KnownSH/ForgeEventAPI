@@ -21,7 +21,7 @@ public class MinecraftMixin implements MinecraftAccessor {
             method = "runTick",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V")
     )
-    private void forgeevents$onRunTick(CallbackInfo ci) {
+    private void neoforged$onRunTick(CallbackInfo ci) {
         this.realPartialTick = this.pause ? this.pausePartialTick : this.timer.partialTick;
     }
 

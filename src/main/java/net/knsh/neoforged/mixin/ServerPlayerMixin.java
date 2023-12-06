@@ -15,7 +15,7 @@ public class ServerPlayerMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void forgeevents$onPlayerDeathEvent(DamageSource source, CallbackInfo ci) {
+    private void neoforged$onPlayerDeathEvent(DamageSource source, CallbackInfo ci) {
         if (CommonHooks.onLivingDeath((ServerPlayer) (Object) this, source)) {
             ci.cancel();
         }

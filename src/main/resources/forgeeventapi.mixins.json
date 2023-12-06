@@ -4,20 +4,30 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "EnderDragonMixin",
+    "EntityMixin",
     "ExplosionMixin",
     "LevelMixin",
     "LivingEntityMixin",
     "MobMixin",
+    "NaturalSpawnerMixin",
+    "PersistentEntitySectionManagerMixin",
     "PlayerMixin",
+    "ServerEntityCallbacksMixin",
+    "ServerLevelMixin",
     "ServerPlayerGameModeMixin",
     "ServerPlayerMixin",
+    "SpawnPlacementsMixin",
+    "SpawnUtilMixin",
     "SpiderMixin",
-    "StartAttackingMixin"
+    "StartAttackingMixin",
+    "client.BaseSpawnerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
+    "client.ClientEntityCallbacksMixin",
+    "client.ClientLevelMixin",
     "client.GameRendererMixin",
     "client.LevelRendererMixin",
     "client.MinecraftMixin"

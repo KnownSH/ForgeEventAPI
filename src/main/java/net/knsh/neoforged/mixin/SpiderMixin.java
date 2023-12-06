@@ -23,7 +23,7 @@ public class SpiderMixin extends Monster {
             method = "canBeAffected",
             at = @At("RETURN")
     )
-    private boolean forgeevents$canBeAffected$eventCall(boolean returnValue, @Local MobEffectInstance effectInstance) {
+    private boolean neoforged$canBeAffected$eventCall(boolean returnValue, @Local MobEffectInstance effectInstance) {
         if (effectInstance.getEffect() == MobEffects.POISON) {
             MobEffectEvent.Applicable event = new MobEffectEvent.Applicable((Spider) (Object) this, effectInstance);
             MobEffectEvent.Applicable.EVENT.invoker().onApplicableEvent(event);

@@ -28,7 +28,7 @@ public class EnderDragonMixin extends Mob {
     @Unique @Nullable private Player unlimitedLastHurtByPlayer;
 
     @Inject(method = "aiStep", at = @At("HEAD"))
-    private void forgeevents$setLastHurtByPlayer(CallbackInfo ci) {
+    private void neoforged$setLastHurtByPlayer(CallbackInfo ci) {
         // lastHurtByPlayer is cleared after 100 ticks, capture it indefinitely in unlimitedLastHurtByPlayer for LivingExperienceDropEvent
         if (this.lastHurtByPlayer != null) this.unlimitedLastHurtByPlayer = lastHurtByPlayer;
         if (this.unlimitedLastHurtByPlayer != null && this.unlimitedLastHurtByPlayer.isRemoved()) this.unlimitedLastHurtByPlayer = null;
@@ -38,7 +38,7 @@ public class EnderDragonMixin extends Mob {
             method = "tickDeath",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ExperienceOrb;award(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/phys/Vec3;I)V")
     )
-    private void forgeevents$getExperienceDropEvent(ServerLevel level, Vec3 pos, int amount, Operation<Void> original, @Local int i) {
+    private void neoforged$getExperienceDropEvent(ServerLevel level, Vec3 pos, int amount, Operation<Void> original, @Local int i) {
         int award = EventHooks.getExperienceDrop((EnderDragon) (Object) this, this.unlimitedLastHurtByPlayer, Mth.floor((float) i * 0.08F));
         original.call(level, pos, award);
     }
@@ -47,7 +47,7 @@ public class EnderDragonMixin extends Mob {
             method = "tickDeath",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ExperienceOrb;award(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/phys/Vec3;I)V", ordinal = 1)
     )
-    private void forgeevents$getExperienceDropEvent2(ServerLevel level, Vec3 pos, int amount, Operation<Void> original, @Local int i) {
+    private void neoforged$getExperienceDropEvent2(ServerLevel level, Vec3 pos, int amount, Operation<Void> original, @Local int i) {
         int award = EventHooks.getExperienceDrop((EnderDragon) (Object) this, this.unlimitedLastHurtByPlayer, Mth.floor((float) i * 0.2F));
         original.call(level, pos, award);
     }

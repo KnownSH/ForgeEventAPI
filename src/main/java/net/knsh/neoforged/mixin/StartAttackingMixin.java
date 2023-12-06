@@ -23,7 +23,7 @@ public class StartAttackingMixin {
             method = "method_47123",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/behavior/declarative/MemoryAccessor;set(Ljava/lang/Object;)V")
     )
-    private static void forgeevents$onAttackEvent(Predicate predicate, Function function, MemoryAccessor<com.mojang.datafixers.kinds.K1, LivingEntity> memoryAccessor, MemoryAccessor memoryAccessor2, ServerLevel world, Mob mob, long l, CallbackInfoReturnable<Boolean> cir, @Local LocalRef<LivingEntity> livingEntity) {
+    private static void neoforged$onAttackEvent(Predicate predicate, Function function, MemoryAccessor<com.mojang.datafixers.kinds.K1, LivingEntity> memoryAccessor, MemoryAccessor memoryAccessor2, ServerLevel world, Mob mob, long l, CallbackInfoReturnable<Boolean> cir, @Local LocalRef<LivingEntity> livingEntity) {
         LivingChangeTargetEvent changeTargetEvent = CommonHooks.onLivingChangeTarget(mob, livingEntity.get(), LivingChangeTargetEvent.LivingTargetType.MOB_TARGET);
         if (!changeTargetEvent.isCanceled()) {
             memoryAccessor.set(changeTargetEvent.getNewTarget());

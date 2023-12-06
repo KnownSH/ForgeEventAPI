@@ -19,7 +19,7 @@ public class LevelMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Explosion;explode()V"),
             cancellable = true
     )
-    private void forgeevents$explode$eventCall(Entity source, DamageSource damageSource, ExplosionDamageCalculator damageCalculator, double x, double y, double z, float radius, boolean fire, Level.ExplosionInteraction explosionInteraction, boolean spawnParticles, CallbackInfoReturnable<Explosion> cir, @Local Explosion explosion) {
+    private void neoforged$explode$eventCall(Entity source, DamageSource damageSource, ExplosionDamageCalculator damageCalculator, double x, double y, double z, float radius, boolean fire, Level.ExplosionInteraction explosionInteraction, boolean spawnParticles, CallbackInfoReturnable<Explosion> cir, @Local Explosion explosion) {
         if (EventHooks.onExplosionStart((Level) (Object) this, explosion)) {
             cir.setReturnValue(explosion);
         }

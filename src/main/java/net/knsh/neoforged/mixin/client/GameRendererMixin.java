@@ -25,7 +25,7 @@ public class GameRendererMixin {
             method = "renderLevel",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", ordinal = 1)
     )
-    private void forgeevents$onRenderLevelEvent(
+    private void neoforged$onRenderLevelEvent(
             float partialTicks, long finishTimeNano, PoseStack poseStack, CallbackInfo ci,
             @Local LocalRef<Matrix4f> matrix4f, @Local LocalRef<Camera> camera)
     {
