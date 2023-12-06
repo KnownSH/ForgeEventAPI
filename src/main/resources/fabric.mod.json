@@ -19,7 +19,7 @@
 			"net.knsh.neoforged.NeoForge"
 		],
 		"client": [
-			"net.knsh.neoforged.neoforge.client.testingClient"
+			"net.knsh.neoforged.NeoForgeClient"
 		]
 	},
 	"mixins": [

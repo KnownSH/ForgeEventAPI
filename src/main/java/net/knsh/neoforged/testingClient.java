@@ -1,7 +1,7 @@
 package net.knsh.neoforged;
 
-public class testing {
-    public testing() {
+public class testingClient {
+    public testingClient() {
         NeoForge.EVENT_BUS.register(this);
     }
 }
