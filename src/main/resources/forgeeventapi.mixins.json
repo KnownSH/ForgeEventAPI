@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "EnderDragonMixin",
+    "ExplosionMixin",
+    "LevelMixin",
     "LivingEntityMixin",
     "MobMixin",
     "PlayerMixin",
