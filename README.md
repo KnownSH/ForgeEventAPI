@@ -14,6 +14,7 @@ A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
   | LivingChangeTargetEvent | ✅
   | LivingDamageEvent | ✅
   | LivingDeathEvent | ✅
+  | LivingExperienceDropEvent | ✅
   | LivingTickEvent | ✅
   | MobEffectEvent | ✅ | All Sub-events added
 
