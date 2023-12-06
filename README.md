@@ -8,13 +8,14 @@ A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
 
   ### Common
   
-  | Event | Ported | Reason |
+  | Event | Ported | Info |
   | :---- | :----: | :----- |
   | BlockEvent.BreakEvent | ✅
   | LivingChangeTargetEvent | ✅
   | LivingDamageEvent | ✅
   | LivingDeathEvent | ✅
   | LivingTickEvent | ✅
+  | MobEffectEvent | ✅ | All Sub-events added
 
   ### Client
   | Event | Ported | Reason |
