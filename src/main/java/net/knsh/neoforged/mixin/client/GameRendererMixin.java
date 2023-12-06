@@ -21,7 +21,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class GameRendererMixin {
     @Shadow @Final private Minecraft minecraft;
 
-    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", ordinal = 1))
+    @Inject(
+            method = "renderLevel",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", ordinal = 1)
+    )
     private void forgeevents$onRenderLevelEvent(
             float partialTicks, long finishTimeNano, PoseStack poseStack, CallbackInfo ci,
             @Local LocalRef<Matrix4f> matrix4f, @Local LocalRef<Camera> camera)
@@ -33,6 +36,7 @@ public class GameRendererMixin {
                 matrix4f.get(),
                 ((LevelRendererAccessor) this.minecraft.levelRenderer).getTicks(),
                 camera.get(),
-                ((LevelRendererAccessor) this.minecraft.levelRenderer).getFrustum());
+                ((LevelRendererAccessor) this.minecraft.levelRenderer).getFrustum()
+        );
     }
 }

@@ -19,7 +19,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerGameMode.class)
 public class ServerPlayerGameModeMixin {
-    @Inject(method = "useItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getCount()I"), cancellable = true)
+    @Inject(
+            method = "useItem",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getCount()I"),
+            cancellable = true
+    )
     private void forgeevents$useItemEvent(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         InteractionResult cancelResult = CommonHooks.onItemRightClick(player, hand);
         if (cancelResult != null) {
@@ -27,7 +31,10 @@ public class ServerPlayerGameModeMixin {
         }
     }
 
-    @Redirect(method = "destroyBlock" , at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item;canAttackBlock(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;)Z"))
+    @Redirect(
+            method = "destroyBlock",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/Item;canAttackBlock(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;)Z")
+    )
     private boolean forgeevents$onBlockBreakEvent(Item instance, BlockState state, Level level, BlockPos pos, Player player) {
         int exp = CommonHooks.onBlockBreakEvent(level, player.getServer().getDefaultGameType(), (ServerPlayer) player, pos);
         return !(exp == -1); // return inverse because it should be inverted again in the original method

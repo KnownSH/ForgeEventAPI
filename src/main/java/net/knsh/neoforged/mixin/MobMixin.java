@@ -14,10 +14,8 @@ import org.spongepowered.asm.mixin.injection.At;
 public class MobMixin {
     @WrapOperation(
             method = "setTarget",
-            at = @At(
-                    value = "FIELD",
-                    target = "Lnet/minecraft/world/entity/Mob;target:Lnet/minecraft/world/entity/LivingEntity;",
-                    opcode = Opcodes.PUTFIELD))
+            at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/Mob;target:Lnet/minecraft/world/entity/LivingEntity;", opcode = Opcodes.PUTFIELD)
+    )
     private void forgeevents$onSetTarget(Mob instance, LivingEntity value, Operation<LivingEntity> original) {
         LivingChangeTargetEvent changeTargetEvent = CommonHooks.onLivingChangeTarget(instance, value, LivingChangeTargetEvent.LivingTargetType.MOB_TARGET);
         if (!changeTargetEvent.isCanceled()) {
