@@ -1,12 +1,12 @@
 package net.knsh.neoforged.mixin;
 
-import net.knsh.neoforged.accessors.EntityAccessor;
+import net.knsh.neoforged.accessors.ForgeEntity;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(Entity.class)
-public class EntityMixin implements EntityAccessor {
+public class EntityMixin implements ForgeEntity {
     @Unique private boolean isAddedToWorld;
 
     public EntityMixin(boolean isAddedToWorld) {

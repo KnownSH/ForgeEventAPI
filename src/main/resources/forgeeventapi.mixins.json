@@ -3,9 +3,14 @@
   "package": "net.knsh.neoforged.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "BlockBehaviorMixin",
+    "BlockMixin",
+    "BlockStateMixin",
     "EnderDragonMixin",
     "EntityMixin",
     "ExplosionMixin",
+    "FrostWalkerEnchantmentMixin",
+    "ItemStackMixin",
     "LevelMixin",
     "LivingEntityMixin",
     "MobMixin",
@@ -20,7 +25,8 @@
     "SpawnUtilMixin",
     "SpiderMixin",
     "StartAttackingMixin",
-    "client.BaseSpawnerMixin"
+    "BaseSpawnerMixin",
+    "EnderManMixin"
   ],
   "injectors": {
     "defaultRequire": 1

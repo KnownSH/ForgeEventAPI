@@ -1,5 +1,9 @@
 package net.knsh.neoforged.neoforge.common;
 
+import com.google.common.collect.Lists;
+import net.knsh.neoforged.accessors.ForgeBlockState;
+import net.knsh.neoforged.accessors.ForgeLevel;
+import net.knsh.neoforged.neoforge.common.util.BlockSnapshot;
 import net.knsh.neoforged.neoforge.event.EventHooks;
 import net.knsh.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.knsh.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -8,22 +12,33 @@ import net.knsh.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.knsh.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.knsh.neoforged.neoforge.event.level.BlockEvent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class CommonHooks {
     public static boolean isCorrectToolForDrops(@NotNull BlockState state, @NotNull Player player) {
@@ -104,5 +119,92 @@ public class CommonHooks {
             }
         }
         return event.isCanceled() ? -1 : 0;
+    }
+
+    public static void dropXpForBlock(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack) {
+        int fortuneLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, stack);
+        int silkTouchLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, stack);
+        int exp = ((ForgeBlockState) state).getExpDrop(level, level.random, pos, fortuneLevel, silkTouchLevel);
+        if (exp > 0)
+            state.getBlock().popExperience(level, pos, exp);
+    }
+
+    public static InteractionResult onPlaceItemIntoWorld(@NotNull UseOnContext context) {
+        ItemStack itemstack = context.getItemInHand();
+        Level level = context.getLevel();
+
+        Player player = context.getPlayer();
+        if (player != null && !player.getAbilities().mayBuild && !itemstack.hasAdventureModePlaceTagForBlock(level.registryAccess().registryOrThrow(Registries.BLOCK), new BlockInWorld(level, context.getClickedPos(), false)))
+            return InteractionResult.PASS;
+
+        // handle all placement events here
+        Item item = itemstack.getItem();
+        int size = itemstack.getCount();
+        CompoundTag nbt = null;
+        if (itemstack.getTag() != null)
+            nbt = itemstack.getTag().copy();
+
+        if (!(itemstack.getItem() instanceof BucketItem)) // if not bucket
+            ((ForgeLevel) level).setCaptureBlockSnapshots(true);
+
+        ItemStack copy = itemstack.copy();
+        InteractionResult ret = itemstack.getItem().useOn(context);
+        if (itemstack.isEmpty())
+            //EventHooks.onPlayerDestroyItem(player, copy, context.getHand());
+
+        ((ForgeLevel) level).setCaptureBlockSnapshots(false);
+
+        if (ret.consumesAction()) {
+            // save new item data
+            int newSize = itemstack.getCount();
+            CompoundTag newNBT = null;
+            if (itemstack.getTag() != null) {
+                newNBT = itemstack.getTag().copy();
+            }
+            @SuppressWarnings("unchecked")
+            List<BlockSnapshot> blockSnapshots = (List<BlockSnapshot>) ((ForgeLevel)level).getCapturedBlockSnapshots().clone();
+            ((ForgeLevel)level).getCapturedBlockSnapshots().clear();
+
+            // make sure to set pre-placement item data for event
+            itemstack.setCount(size);
+            itemstack.setTag(nbt);
+
+            Direction side = context.getClickedFace();
+
+            boolean eventResult = false;
+            if (blockSnapshots.size() > 1) {
+                eventResult = EventHooks.onMultiBlockPlace(player, blockSnapshots, side);
+            } else if (blockSnapshots.size() == 1) {
+                eventResult = EventHooks.onBlockPlace(player, blockSnapshots.get(0), side);
+            }
+
+            if (eventResult) {
+                ret = InteractionResult.FAIL; // cancel placement
+                // revert back all captured blocks
+                for (BlockSnapshot blocksnapshot : Lists.reverse(blockSnapshots)) {
+                    ((ForgeLevel) level).setRestoringBlockSnapshots(true);
+                    blocksnapshot.restore(true, false);
+                    ((ForgeLevel) level).setRestoringBlockSnapshots(false);
+                }
+            } else {
+                // Change the stack to its new content
+                itemstack.setCount(newSize);
+                itemstack.setTag(newNBT);
+
+                for (BlockSnapshot snap : blockSnapshots) {
+                    int updateFlag = snap.getFlag();
+                    BlockState oldBlock = snap.getReplacedBlock();
+                    BlockState newBlock = level.getBlockState(snap.getPos());
+                    newBlock.onPlace(level, snap.getPos(), oldBlock, false);
+
+                    //level.markAndNotifyBlock(snap.getPos(), level.getChunkAt(snap.getPos()), oldBlock, newBlock, updateFlag, 512);
+                }
+                if (player != null)
+                    player.awardStat(Stats.ITEM_USED.get(item));
+            }
+        }
+        ((ForgeLevel) level).getCapturedBlockSnapshots().clear();
+
+        return ret;
     }
 }

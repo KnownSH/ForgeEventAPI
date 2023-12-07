@@ -1,24 +1,64 @@
 package net.knsh.neoforged.neoforge.event;
 
 import net.knsh.neoforged.bus.api.ForgeEvent;
+import net.knsh.neoforged.neoforge.common.ToolAction;
+import net.knsh.neoforged.neoforge.common.util.BlockSnapshot;
 import net.knsh.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
 import net.knsh.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.knsh.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.knsh.neoforged.neoforge.event.level.BlockEvent;
 import net.knsh.neoforged.neoforge.event.level.ExplosionEvent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumSet;
 import java.util.List;
 
 public class EventHooks {
+    public static boolean onMultiBlockPlace(@Nullable Entity entity, List<BlockSnapshot> blockSnapshots, Direction direction) {
+        BlockSnapshot snap = blockSnapshots.get(0);
+        BlockState placedAgainst = snap.getLevel().getBlockState(snap.getPos().relative(direction.getOpposite()));
+        BlockEvent.EntityMultiPlaceEvent event = new BlockEvent.EntityMultiPlaceEvent(blockSnapshots, placedAgainst, entity);
+        return BlockEvent.EntityMultiPlaceEvent.EVENT.invoker().onEvent(event).isCanceled();
+    }
+
+    public static boolean onBlockPlace(@Nullable Entity entity, @NotNull BlockSnapshot blockSnapshot, @NotNull Direction direction) {
+        BlockState placedAgainst = blockSnapshot.getLevel().getBlockState(blockSnapshot.getPos().relative(direction.getOpposite()));
+        BlockEvent.EntityPlaceEvent event = new BlockEvent.EntityPlaceEvent(blockSnapshot, placedAgainst, entity);
+        return BlockEvent.EntityPlaceEvent.EVENT.invoker().onBreakEvent(event).isCanceled();
+    }
+
+    @Nullable
+    public static BlockState onToolUse(BlockState originalState, UseOnContext context, ToolAction toolAction, boolean simulate) {
+        BlockEvent.BlockToolModificationEvent event = new BlockEvent.BlockToolModificationEvent(originalState, context, toolAction, simulate);
+        return BlockEvent.BlockToolModificationEvent.EVENT.invoker().onEvent(event).isCanceled() ? null : event.getFinalState();
+    }
+
+    public static boolean canCreateFluidSource(Level level, BlockPos pos, BlockState state, boolean def) {
+        BlockEvent.CreateFluidSourceEvent evt = new BlockEvent.CreateFluidSourceEvent(level, pos, state);
+        evt = BlockEvent.CreateFluidSourceEvent.EVENT.invoker().onEvent(evt);
+
+        ForgeEvent.Result result = evt.getResult();
+        return result == ForgeEvent.Result.DEFAULT ? def : result == ForgeEvent.Result.ALLOW;
+    }
+
+    public static BlockEvent.NeighborNotifyEvent onNeighborNotify(Level level, BlockPos pos, BlockState state, EnumSet<Direction> notifiedSides, boolean forceRedstoneUpdate) {
+        BlockEvent.NeighborNotifyEvent event = new BlockEvent.NeighborNotifyEvent(level, pos, state, notifiedSides, forceRedstoneUpdate);
+        event = BlockEvent.NeighborNotifyEvent.EVENT.invoker().onEvent(event);
+        return event;
+    }
+
     public static boolean doPlayerHarvestCheck(Player player, BlockState state, boolean success) {
         PlayerEvent.HarvestCheck event = new PlayerEvent.HarvestCheck(player, state, success);
         event = PlayerEvent.HarvestCheck.EVENT.invoker().onHarvestCheck(event);

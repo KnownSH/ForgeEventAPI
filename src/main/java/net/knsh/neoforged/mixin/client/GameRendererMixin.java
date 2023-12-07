@@ -3,7 +3,7 @@ package net.knsh.neoforged.mixin.client;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.knsh.neoforged.accessors.LevelRendererAccessor;
+import net.knsh.neoforged.accessors.ForgeLevelRenderer;
 import net.knsh.neoforged.neoforge.client.ClientHooks;
 import net.knsh.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.minecraft.client.Camera;
@@ -34,9 +34,9 @@ public class GameRendererMixin {
                 this.minecraft.levelRenderer,
                 poseStack,
                 matrix4f.get(),
-                ((LevelRendererAccessor) this.minecraft.levelRenderer).getTicks(),
+                ((ForgeLevelRenderer) this.minecraft.levelRenderer).getTicks(),
                 camera.get(),
-                ((LevelRendererAccessor) this.minecraft.levelRenderer).getFrustum()
+                ((ForgeLevelRenderer) this.minecraft.levelRenderer).getFrustum()
         );
     }
 }

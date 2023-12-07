@@ -3,8 +3,7 @@ package net.knsh.neoforged.neoforge.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.knsh.neoforged.NeoForge;
-import net.knsh.neoforged.accessors.MinecraftAccessor;
+import net.knsh.neoforged.accessors.ForgeMinecraft;
 import net.knsh.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -26,7 +25,7 @@ public class ClientHooks {
         Minecraft mc = Minecraft.getInstance();
         ProfilerFiller profiler = mc.getProfiler();
         profiler.push(stage.toString());
-        RenderLevelStageEvent.EVENT.invoker().onRenderLevelStageEvent(new RenderLevelStageEvent(stage, levelRenderer, poseStack, projectionMatrix, renderTick, ((MinecraftAccessor) mc).getPartialTick(), camera, frustum));
+        RenderLevelStageEvent.EVENT.invoker().onRenderLevelStageEvent(new RenderLevelStageEvent(stage, levelRenderer, poseStack, projectionMatrix, renderTick, ((ForgeMinecraft) mc).getPartialTick(), camera, frustum));
         profiler.pop();
     }
 }

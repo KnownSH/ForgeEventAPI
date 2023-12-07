@@ -1,6 +1,6 @@
 package net.knsh.neoforged.accessors;
 
-public interface MobAccessor {
+public interface ForgeMob {
     boolean isSpawnCancelled();
     void setSpawnCancelled(boolean cancel);
 }

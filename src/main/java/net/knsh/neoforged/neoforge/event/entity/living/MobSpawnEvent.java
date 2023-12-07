@@ -1,7 +1,7 @@
 package net.knsh.neoforged.neoforge.event.entity.living;
 
 import net.fabricmc.fabric.api.event.Event;
-import net.knsh.neoforged.accessors.MobAccessor;
+import net.knsh.neoforged.accessors.ForgeMob;
 import net.knsh.neoforged.bus.api.ForgeEvent;
 import net.knsh.neoforged.bus.api.ICancellableEvent;
 import net.knsh.neoforged.bus.fabric.ForgeEventFactory;
@@ -399,7 +399,7 @@ public abstract class MobSpawnEvent extends EntityEvent {
          * @param cancel If the spawn should be cancelled (or not).
          */
         public void setSpawnCancelled(boolean cancel) {
-            ((MobAccessor) this.getEntity()).setSpawnCancelled(cancel);
+            ((ForgeMob) this.getEntity()).setSpawnCancelled(cancel);
         }
 
         /**
@@ -408,7 +408,7 @@ public abstract class MobSpawnEvent extends EntityEvent {
          * @return If this mob's spawn is cancelled or not.
          */
         public boolean isSpawnCancelled() {
-            return ((MobAccessor) this.getEntity()).isSpawnCancelled();
+            return ((ForgeMob) this.getEntity()).isSpawnCancelled();
         }
     }
 

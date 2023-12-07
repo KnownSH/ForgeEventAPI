@@ -1,6 +1,6 @@
 package net.knsh.neoforged.mixin;
 
-import net.knsh.neoforged.accessors.EntityAccessor;
+import net.knsh.neoforged.accessors.ForgeEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.entity.EntityAccess;
 import net.minecraft.world.level.entity.PersistentEntitySectionManager;
@@ -17,7 +17,7 @@ public class PersistentEntitySectionManagerMixin {
     )
     private void neoforged$onAddEntity(EntityAccess entity, CallbackInfo ci) {
         if (entity instanceof Entity entity1) {
-            ((EntityAccessor) entity1).onAddedToWorld();
+            ((ForgeEntity) entity1).onAddedToWorld();
         }
     }
 
@@ -27,7 +27,7 @@ public class PersistentEntitySectionManagerMixin {
     )
     private void neoforged$onAddEntity2(EntityAccess entity, CallbackInfo ci) {
         if (entity instanceof Entity entity1) {
-            ((EntityAccessor) entity1).onAddedToWorld();
+            ((ForgeEntity) entity1).onAddedToWorld();
         }
     }
 
@@ -37,7 +37,7 @@ public class PersistentEntitySectionManagerMixin {
     )
     private void neoforged$onAddEntity3(EntityAccess entity, CallbackInfo ci) {
         if (entity instanceof Entity entity1) {
-            ((EntityAccessor) entity1).onAddedToWorld();
+            ((ForgeEntity) entity1).onAddedToWorld();
         }
     }
 }

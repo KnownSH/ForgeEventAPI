@@ -4,8 +4,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
-import net.knsh.neoforged.accessors.EntityAccessor;
-import net.knsh.neoforged.accessors.MobAccessor;
+import net.knsh.neoforged.accessors.ForgeEntity;
+import net.knsh.neoforged.accessors.ForgeMob;
 import net.knsh.neoforged.bus.api.ForgeEvent;
 import net.knsh.neoforged.neoforge.common.CommonHooks;
 import net.knsh.neoforged.neoforge.event.EventHooks;
@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Mob.class)
-public abstract class MobMixin extends LivingEntity implements MobAccessor {
+public abstract class MobMixin extends LivingEntity implements ForgeMob {
     @Unique private boolean spawnCancelled = false;
 
     protected MobMixin(EntityType<? extends LivingEntity> entityType, Level level) {
@@ -38,7 +38,7 @@ public abstract class MobMixin extends LivingEntity implements MobAccessor {
 
     @Unique
     public final void setSpawnCancelled(boolean cancel) {
-        if (((EntityAccessor) this).isAddedToWorld()) {
+        if (((ForgeEntity) this).isAddedToWorld()) {
             throw new UnsupportedOperationException("Late invocations of Mob#setSpawnCancelled are not supported!");
         }
         this.spawnCancelled = cancel;

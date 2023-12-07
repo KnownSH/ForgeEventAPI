@@ -1,5 +1,5 @@
 package net.knsh.neoforged.accessors;
 
-public interface MinecraftAccessor {
+public interface ForgeMinecraft {
     float getPartialTick();
 }

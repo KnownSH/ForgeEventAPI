@@ -1,6 +1,6 @@
 package net.knsh.neoforged.mixin.client;
 
-import net.knsh.neoforged.accessors.EntityAccessor;
+import net.knsh.neoforged.accessors.ForgeEntity;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,6 +15,6 @@ public class ClientLevelMixin {
             at = @At("TAIL")
     )
     private void neoforged$onAddEntity(int entityId, Entity entityToSpawn, CallbackInfo ci) {
-        ((EntityAccessor) entityToSpawn).onAddedToWorld();
+        ((ForgeEntity) entityToSpawn).onAddedToWorld();
     }
 }

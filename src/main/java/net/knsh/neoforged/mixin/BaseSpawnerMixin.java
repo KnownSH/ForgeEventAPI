@@ -1,4 +1,4 @@
-package net.knsh.neoforged.mixin.client;
+package net.knsh.neoforged.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
