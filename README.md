@@ -1,7 +1,28 @@
 <h1 align="center">This API is currently under heavy development, unstable, and doesn't feature every event in Forge</h1>
 <img src="https://cdn.discordapp.com/attachments/650570958343634969/1182596427432595466/FEAPIP-logo.png?ex=658545bf&is=6572d0bf&hm=3eaa2a44ea3ba39e4754c6205cc7b41fe6382068d740bbed5628bb1ceb63be11" aligh="center">Forge Event API Port</href>
-A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
+A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API.
 <b><br>Not affilated with the NeoForged project or the Forge Config API Port, both of which this library is based upon!</b>
+<br>
+
+### This API is very [Mixin](https://github.com/SpongePowered/Mixin/wiki/Introduction-to-Mixins---Understanding-Mixin-Architecture) intensive, leading to possible mod conflicts, I will try and fix these as they happen.
+
+### Installing Via Gradle
+<details>
+
+  Forge Event API Port uses the jitpack Maven repositiory
+  ```gradle
+  repositories {
+    maven { url = "https://jitpack.io" }
+  }
+  ```
+
+  If you want to include FEAPI as a Jar-in-jar
+  ```gradle
+  dependencies {
+    include modApi("com.github.knownsh:forgeeventapi:VERSION")
+  }
+  ```
+</details>
 
 ### Currently added built-in events
 <details>
