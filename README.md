@@ -8,9 +8,9 @@ A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
 
   ### Common
   
-  | Event | Ported | All Sub-events Added |
-  | :---- | :----: | :-----: |
-  | BlockEvent.BreakEvent | ✅
+  | Event | Ported | All Sub-events Added | Reason |
+  | :---- | :----: | :-----: | :-----: |
+  | BlockEvent | ✴️ | ❌ | BlockToolModificationEvent not added due to intrusiveness
   | ExplosionEvent | ✅ | ✅
   | LivingChangeTargetEvent | ✅
   | LivingDamageEvent | ✅
