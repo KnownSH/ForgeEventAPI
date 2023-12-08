@@ -4,7 +4,7 @@ A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
 <b><br>Not affilated with the NeoForged project or the Forge Config API Port, both of which this library is based upon!</b>
 <br>
 
-### This API is very [Mixin](https://github.com/SpongePowered/Mixin/wiki/Introduction-to-Mixins---Understanding-Mixin-Architecture) intensive, leading to possible mod conflicts, I will try and fix these as they happen.
+### This API is very [Mixin intensive](https://github.com/KnownSH/forgeeventapi/tree/main/src/main/java/net/knsh/neoforged/mixin), leading to possible mod conflicts, I will try and fix these as they happen.
 
 ### Installing Via Gradle
 <details>
