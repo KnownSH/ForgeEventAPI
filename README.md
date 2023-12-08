@@ -7,10 +7,16 @@ A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
 <details>
 
   ### Common
+
+  | Emoji | Meaning |
+  | :---: | :------ |
+  | ✅ | Fully Added |
+  | ✴️ | Partially Added |
+  | ❌ | Not added |
   
-  | Event | Ported | All Sub-events Added |
-  | :---- | :----: | :-----: |
-  | BlockEvent.BreakEvent | ✅
+  | Event | Ported | Sub-events | Reason |
+  | :---- | :----: | :-----: | :-----: |
+  | BlockEvent | ✴️ | ✴️ | **BlockToolModificationEvent**, **CreateFluidSourceEvent** not added due to intrusiveness, possible full rewrite eventually.
   | ExplosionEvent | ✅ | ✅
   | LivingChangeTargetEvent | ✅
   | LivingDamageEvent | ✅
@@ -21,9 +27,9 @@ A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
   | MobSpawnEvent | ✅ | ✅
 
   ### Client
-  | Event | Ported | Reason |
-  | :---- | :----: | :----- |
-  | RenderLevelStageEvent | ✅
+  | Event | Ported | Sub-events | Reason |
+  | :---- | :----: | :-----: | :-----: |
+  | RenderLevelStageEvent | ✅ | ✅
   
 </details>
 
