@@ -28,7 +28,7 @@ A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
 
   ### Client
   | Event | Ported | Sub-events | Reason |
-  | :---- | :----: | :----- |
+  | :---- | :----: | :-----: | :-----: |
   | RenderLevelStageEvent | ✅ | ✅
   
 </details>
