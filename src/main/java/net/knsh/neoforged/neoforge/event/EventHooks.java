@@ -15,15 +15,16 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.portal.PortalShape;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 
 public class EventHooks {
     public static boolean onMultiBlockPlace(@Nullable Entity entity, List<BlockSnapshot> blockSnapshots, Direction direction) {
@@ -39,24 +40,16 @@ public class EventHooks {
         return BlockEvent.EntityPlaceEvent.EVENT.invoker().onBreakEvent(event).isCanceled();
     }
 
-    @Nullable
-    public static BlockState onToolUse(BlockState originalState, UseOnContext context, ToolAction toolAction, boolean simulate) {
-        BlockEvent.BlockToolModificationEvent event = new BlockEvent.BlockToolModificationEvent(originalState, context, toolAction, simulate);
-        return BlockEvent.BlockToolModificationEvent.EVENT.invoker().onEvent(event).isCanceled() ? null : event.getFinalState();
-    }
-
-    public static boolean canCreateFluidSource(Level level, BlockPos pos, BlockState state, boolean def) {
-        BlockEvent.CreateFluidSourceEvent evt = new BlockEvent.CreateFluidSourceEvent(level, pos, state);
-        evt = BlockEvent.CreateFluidSourceEvent.EVENT.invoker().onEvent(evt);
-
-        ForgeEvent.Result result = evt.getResult();
-        return result == ForgeEvent.Result.DEFAULT ? def : result == ForgeEvent.Result.ALLOW;
-    }
-
     public static BlockEvent.NeighborNotifyEvent onNeighborNotify(Level level, BlockPos pos, BlockState state, EnumSet<Direction> notifiedSides, boolean forceRedstoneUpdate) {
         BlockEvent.NeighborNotifyEvent event = new BlockEvent.NeighborNotifyEvent(level, pos, state, notifiedSides, forceRedstoneUpdate);
         event = BlockEvent.NeighborNotifyEvent.EVENT.invoker().onEvent(event);
         return event;
+    }
+
+    public static BlockState fireFluidPlaceBlockEvent(LevelAccessor level, BlockPos pos, BlockPos liquidPos, BlockState state) {
+        BlockEvent.FluidPlaceBlockEvent event = new BlockEvent.FluidPlaceBlockEvent(level, pos, liquidPos, state);
+        event = BlockEvent.FluidPlaceBlockEvent.EVENT.invoker().onEvent(event);
+        return event.getNewState();
     }
 
     public static boolean doPlayerHarvestCheck(Player player, BlockState state, boolean success) {
@@ -71,6 +64,11 @@ public class EventHooks {
             return 0;
         }
         return event.getDroppedExperience();
+    }
+
+    public static Optional<PortalShape> onTrySpawnPortal(LevelAccessor level, BlockPos pos, Optional<PortalShape> size) {
+        if (!size.isPresent()) return size;
+        return BlockEvent.PortalSpawnEvent.EVENT.invoker().onEvent(new BlockEvent.PortalSpawnEvent(level, pos, level.getBlockState(pos), size.get())).isCanceled() ? size : Optional.empty();
     }
 
     public static boolean onExplosionStart(Level level, Explosion explosion) {

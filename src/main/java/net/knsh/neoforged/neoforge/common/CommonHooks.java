@@ -3,6 +3,7 @@ package net.knsh.neoforged.neoforge.common;
 import com.google.common.collect.Lists;
 import net.knsh.neoforged.accessors.ForgeBlockState;
 import net.knsh.neoforged.accessors.ForgeLevel;
+import net.knsh.neoforged.bus.api.ForgeEvent;
 import net.knsh.neoforged.neoforge.common.util.BlockSnapshot;
 import net.knsh.neoforged.neoforge.event.EventHooks;
 import net.knsh.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
@@ -23,6 +24,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
@@ -127,6 +129,22 @@ public class CommonHooks {
         int exp = ((ForgeBlockState) state).getExpDrop(level, level.random, pos, fortuneLevel, silkTouchLevel);
         if (exp > 0)
             state.getBlock().popExperience(level, pos, exp);
+    }
+
+    public static boolean onCropsGrowPre(Level level, BlockPos pos, BlockState state, boolean def) {
+        BlockEvent.CropGrowEvent.Pre ev = new BlockEvent.CropGrowEvent.Pre(level, pos, state);
+        ev = BlockEvent.CropGrowEvent.Pre.EVENT.invoker().onEvent(ev);
+        return (ev.getResult() == ForgeEvent.Result.ALLOW || (ev.getResult() == ForgeEvent.Result.DEFAULT && def));
+    }
+
+    public static void onCropsGrowPost(Level level, BlockPos pos, BlockState state) {
+        BlockEvent.CropGrowEvent.Post.EVENT.invoker().onEvent(new BlockEvent.CropGrowEvent.Post(level, pos, state, level.getBlockState(pos)));
+    }
+
+    public static boolean onFarmlandTrample(Level level, BlockPos pos, BlockState state, float fallDistance, Entity entity) {
+        BlockEvent.FarmlandTrampleEvent event = new BlockEvent.FarmlandTrampleEvent(level, pos, state, fallDistance, entity);
+        event = BlockEvent.FarmlandTrampleEvent.EVENT.invoker().onEvent(event);
+        return !event.isCanceled();
     }
 
     public static InteractionResult onPlaceItemIntoWorld(@NotNull UseOnContext context) {

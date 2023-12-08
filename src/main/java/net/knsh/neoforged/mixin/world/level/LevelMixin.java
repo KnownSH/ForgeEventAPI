@@ -1,4 +1,4 @@
-package net.knsh.neoforged.mixin;
+package net.knsh.neoforged.mixin.world.level;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
@@ -7,6 +7,7 @@ import net.knsh.neoforged.accessors.ForgeLevel;
 import net.knsh.neoforged.neoforge.common.util.BlockSnapshot;
 import net.knsh.neoforged.neoforge.event.EventHooks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageSource;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,17 +23,30 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 @Mixin(Level.class)
 public abstract class LevelMixin implements ForgeLevel {
     @Shadow @Final public boolean isClientSide;
     @Shadow @Final private ResourceKey<Level> dimension;
+
+    @Shadow public abstract BlockState getBlockState(BlockPos pos);
+
     @Unique public boolean restoringBlockSnapshots = false;
     @Unique public boolean captureBlockSnapshots = false;
     @Unique public ArrayList<BlockSnapshot> capturedBlockSnapshots = new ArrayList<>();
+
+    @Inject(
+            method = "updateNeighborsAt",
+            at = @At("HEAD")
+    )
+    private void neoforged$updateNeighborsAt(BlockPos pos, Block block, CallbackInfo ci) {
+        EventHooks.onNeighborNotify((Level) (Object) this, pos, this.getBlockState(pos), EnumSet.allOf(Direction.class), false).isCanceled();
+    }
 
     @Inject(
             method = "explode(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/damagesource/DamageSource;Lnet/minecraft/world/level/ExplosionDamageCalculator;DDDFZLnet/minecraft/world/level/Level$ExplosionInteraction;Z)Lnet/minecraft/world/level/Explosion;",

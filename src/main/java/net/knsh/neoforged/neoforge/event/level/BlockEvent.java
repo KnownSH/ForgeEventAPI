@@ -265,52 +265,6 @@ public abstract class BlockEvent extends ForgeEvent {
     }
 
     /**
-     * Fired to check whether a non-source block can turn into a source block.
-     * A result of ALLOW causes a source block to be created even if the liquid
-     * usually doesn't do that (like lava), and a result of DENY prevents creation
-     * even if the liquid usually does do that (like water).
-     */
-    public static class CreateFluidSourceEvent extends ForgeEvent {
-        public static final Event<ICreateFluidSourceEvent> EVENT = ForgeEventFactory.create(ICreateFluidSourceEvent.class, (listeners) -> (event) -> {
-            for (ICreateFluidSourceEvent listener : listeners) {
-                event = listener.onEvent(event);
-            }
-            return event;
-        });
-
-        public static void onSubscription(Method method, Object object, ResourceLocation priority) {
-            EVENT.register(priority, (event) -> SimpleEventHandler.create(method, object, priority, event));
-        }
-
-        @FunctionalInterface
-        public interface ICreateFluidSourceEvent {
-            CreateFluidSourceEvent onEvent(CreateFluidSourceEvent event);
-        }
-
-        private final Level level;
-        private final BlockPos pos;
-        private final BlockState state;
-
-        public CreateFluidSourceEvent(Level level, BlockPos pos, BlockState state) {
-            this.level = level;
-            this.pos = pos;
-            this.state = state;
-        }
-
-        public Level getLevel() {
-            return level;
-        }
-
-        public BlockPos getPos() {
-            return pos;
-        }
-
-        public BlockState getState() {
-            return state;
-        }
-    }
-
-    /**
      * Fired when a liquid places a block. Use {@link #setNewState(BlockState)} to change the result of
      * a cobblestone generator or add variants of obsidian. Alternatively, you could execute
      * arbitrary code when lava sets blocks on fire, even preventing it.
@@ -377,22 +331,6 @@ public abstract class BlockEvent extends ForgeEvent {
      *
      */
     public static abstract class CropGrowEvent extends BlockEvent {
-        public static final Event<ICropGrowEvent> EVENT = ForgeEventFactory.create(ICropGrowEvent.class, (listeners) -> (event) -> {
-            for (ICropGrowEvent listener : listeners) {
-                event = listener.onEvent(event);
-            }
-            return event;
-        });
-
-        public static void onSubscription(Method method, Object object, ResourceLocation priority) {
-            EVENT.register(priority, (event) -> SimpleEventHandler.create(method, object, priority, event));
-        }
-
-        @FunctionalInterface
-        public interface ICropGrowEvent {
-            CropGrowEvent onEvent(CropGrowEvent event);
-        }
-
         public CropGrowEvent(Level level, BlockPos pos, BlockState state) {
             super(level, pos, state);
         }
@@ -409,6 +347,22 @@ public abstract class BlockEvent extends ForgeEvent {
          * <br>
          */
         public static class Pre extends CropGrowEvent {
+            public static final Event<IPreCropGrowEvent> EVENT = ForgeEventFactory.create(IPreCropGrowEvent.class, (listeners) -> (event) -> {
+                for (IPreCropGrowEvent listener : listeners) {
+                    event = listener.onEvent(event);
+                }
+                return event;
+            });
+
+            public static void onSubscription(Method method, Object object, ResourceLocation priority) {
+                EVENT.register(priority, (event) -> SimpleEventHandler.create(method, object, priority, event));
+            }
+
+            @FunctionalInterface
+            public interface IPreCropGrowEvent {
+                Pre onEvent(Pre event);
+            }
+
             public Pre(Level level, BlockPos pos, BlockState state) {
                 super(level, pos, state);
             }
@@ -423,6 +377,22 @@ public abstract class BlockEvent extends ForgeEvent {
          * <br>
          */
         public static class Post extends CropGrowEvent {
+            public static final Event<IPostCropGrowEvent> EVENT = ForgeEventFactory.create(IPostCropGrowEvent.class, (listeners) -> (event) -> {
+                for (IPostCropGrowEvent listener : listeners) {
+                    event = listener.onEvent(event);
+                }
+                return event;
+            });
+
+            public static void onSubscription(Method method, Object object, ResourceLocation priority) {
+                EVENT.register(priority, (event) -> SimpleEventHandler.create(method, object, priority, event));
+            }
+
+            @FunctionalInterface
+            public interface IPostCropGrowEvent {
+                Post onEvent(Post event);
+            }
+
             private final BlockState originalState;
 
             public Post(Level level, BlockPos pos, BlockState original, BlockState state) {
@@ -508,112 +478,6 @@ public abstract class BlockEvent extends ForgeEvent {
 
         public PortalShape getPortalSize() {
             return size;
-        }
-    }
-
-    /**
-     * Fired when a block is right-clicked by a tool to change its state.
-     * For example: Used to determine if {@link net.knsh.neoforged.neoforge.common.ToolActions#AXE_STRIP an axe can strip},
-     * {@link net.knsh.neoforged.neoforge.common.ToolActions#SHOVEL_FLATTEN a shovel can path}, or {@link net.knsh.neoforged.neoforge.common.ToolActions#HOE_TILL a hoe can till}.
-     * <p>
-     * Care must be taken to ensure level-modifying events are only performed if {@link #isSimulated()} returns {@code false}.
-     * <p>
-     * This event is {@link ICancellableEvent}. If canceled, this will prevent the tool
-     * from changing the block's state.
-     */
-    public static class BlockToolModificationEvent extends BlockEvent implements ICancellableEvent {
-        public static final Event<IBlockToolModificationEvent> EVENT = ForgeEventFactory.create(IBlockToolModificationEvent.class, (listeners) -> (event) -> {
-            for (IBlockToolModificationEvent listener : listeners) {
-                event = listener.onEvent(event);
-            }
-            return event;
-        });
-
-        public static void onSubscription(Method method, Object object, ResourceLocation priority) {
-            EVENT.register(priority, (event) -> SimpleEventHandler.create(method, object, priority, event));
-        }
-
-        @FunctionalInterface
-        public interface IBlockToolModificationEvent {
-            BlockToolModificationEvent onEvent(BlockToolModificationEvent event);
-        }
-
-        private final UseOnContext context;
-        private final ToolAction toolAction;
-        private final boolean simulate;
-        private BlockState state;
-
-        public BlockToolModificationEvent(BlockState originalState, @NotNull UseOnContext context, ToolAction toolAction, boolean simulate) {
-            super(context.getLevel(), context.getClickedPos(), originalState);
-            this.context = context;
-            this.state = originalState;
-            this.toolAction = toolAction;
-            this.simulate = simulate;
-        }
-
-        /**
-         * @return the player using the tool.
-         *         May be null based on what was provided by {@link #getContext() the use on context}.
-         */
-        @Nullable
-        public Player getPlayer() {
-            return this.context.getPlayer();
-        }
-
-        /**
-         * @return the tool being used
-         */
-        public ItemStack getHeldItemStack() {
-            return this.context.getItemInHand();
-        }
-
-        /**
-         * @return the action being performed
-         */
-        public ToolAction getToolAction() {
-            return this.toolAction;
-        }
-
-        /**
-         * Returns {@code true} if this event should not perform any actions that modify the level.
-         * If {@code false}, then level-modifying actions can be performed.
-         *
-         * @return {@code true} if this event should not perform any actions that modify the level.
-         *         If {@code false}, then level-modifying actions can be performed.
-         */
-        public boolean isSimulated() {
-            return this.simulate;
-        }
-
-        /**
-         * Returns the nonnull use on context that this event was performed in.
-         *
-         * @return the nonnull use on context that this event was performed in
-         */
-        @NotNull
-        public UseOnContext getContext() {
-            return context;
-        }
-
-        /**
-         * Sets the state to transform the block into after tool use.
-         *
-         * @param finalState the state to transform the block into after tool use
-         * @see #getFinalState()
-         */
-        public void setFinalState(@Nullable BlockState finalState) {
-            this.state = finalState;
-        }
-
-        /**
-         * Returns the state to transform the block into after tool use.
-         * If {@link #setFinalState(BlockState)} is not called, this will return the original state.
-         * If {@link #isCanceled()} is {@code true}, this value will be ignored and the tool action will be canceled.
-         *
-         * @return the state to transform the block into after tool use
-         */
-        public BlockState getFinalState() {
-            return state;
         }
     }
 }
