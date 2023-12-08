@@ -34,6 +34,8 @@ A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
   | ✅ | Fully Added |
   | ✴️ | Partially Added |
   | ❌ | Not added |
+
+  The primary reason why some events are not ported to fabric (yet) is primarly due to how they require large overwrites of Minecraft source code, which is very likely to cause compatibility with other mods to completely break.
   
   | Event | Ported | Sub-events | Reason |
   | :---- | :----: | :-----: | :-----: |
