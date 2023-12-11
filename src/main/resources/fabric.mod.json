@@ -16,10 +16,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"net.knsh.neoforged.NeoForge"
+			"net.neoforged.neoforge.NeoForge"
 		],
 		"client": [
-			"net.knsh.neoforged.NeoForgeClient"
+			"net.neoforged.neoforge.NeoForgeClient"
 		]
 	},
 	"mixins": [

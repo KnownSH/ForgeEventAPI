@@ -1,5 +1,5 @@
 <h1 align="center">This API is currently under heavy development, unstable, and doesn't feature every event in Forge</h1>
-<img src="https://cdn.discordapp.com/attachments/650570958343634969/1182596427432595466/FEAPIP-logo.png?ex=658545bf&is=6572d0bf&hm=3eaa2a44ea3ba39e4754c6205cc7b41fe6382068d740bbed5628bb1ceb63be11" aligh="center">Forge Event API Port</href>
+<img src="https://cdn.discordapp.com/attachments/650570958343634969/1182596427432595466/FEAPIP-logo.png?ex=658545bf&is=6572d0bf&hm=3eaa2a44ea3ba39e4754c6205cc7b41fe6382068d740bbed5628bb1ceb63be11" align="center" alt="FEAPI Icon">Forge Event API Port
 A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API.
 <b><br>Not affilated with the NeoForged project or the Forge Config API Port, both of which this library is based upon!</b>
 <br>
@@ -27,37 +27,37 @@ A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
 ### Currently added built-in events
 <details>
 
-  ### Common
-
-  | Emoji | Meaning |
-  | :---: | :------ |
-  | ✅ | Fully Added |
-  | ✴️ | Partially Added |
-  | ❌ | Not added |
+  | Emoji | Meaning         |
+  |:-----:|:----------------|
+  |   ✅   | Fully Added     |
+  |  ✴️   | Partially Added |
+  |   ❌   | Not added       |
 
   The primary reason why some events are not ported to fabric (yet) is primarly due to how they require large overwrites of Minecraft source code, which is very likely to cause compatibility with other mods to completely break.
-  
-  | Event | Ported | Sub-events | Reason |
-  | :---- | :----: | :-----: | :-----: |
-  | ArrowLooseEvent | ✅
-  | BlockEvent | ✴️ | ✴️ | **BlockToolModificationEvent**, **CreateFluidSourceEvent** not added due to intrusiveness, possible full rewrite eventually.
-  | CriticalHitEvent | ✅
-  | CustomizeGuiOverlayEvent | ✅ | ✴️ | **Chat** event not added due to intrusiveness.
-  | ExplosionEvent | ✅ | ✅
-  | LivingEvent | ✅ | ✅
-  | LivingChangeTargetEvent | ✅
-  | LivingDamageEvent | ✅
-  | LivingDeathEvent | ✅
-  | LivingExperienceDropEvent | ✅
-  | LivingTickEvent | ✅
-  | MobEffectEvent | ✅ | ✅
-  | MobSpawnEvent | ✅ | ✅
 
-  ### Client
-  | Event | Ported | Sub-events | Reason |
-  | :---- | :----: | :-----: | :-----: |
-  | RenderLevelStageEvent | ✅ | ✅
+### Common
   
+  | Event                     | Ported | Sub-events |                                                            Reason                                                            |
+  |:--------------------------|:------:|:----------:|:----------------------------------------------------------------------------------------------------------------------------:|
+  | ArrowLooseEvent           |   ✅    |            |                                                                                                                              |
+  | BlockEvent                |   ✴️   |     ✴️     | **BlockToolModificationEvent**, **CreateFluidSourceEvent** not added due to intrusiveness, possible full rewrite eventually. |
+  | CriticalHitEvent          |   ✅    |            |                                                                                                                              |
+  | CustomizeGuiOverlayEvent  |   ✅    |     ✴️     |                                        **Chat** event not added due to intrusiveness.                                        |
+  | ExplosionEvent            |   ✅    |     ✅      |                                                                                                                              |
+  | LivingEvent               |   ✅    |     ✅      |                                                                                                                              |
+  | LivingChangeTargetEvent   |   ✅    |            |                                                                                                                              |
+  | LivingDamageEvent         |   ✅    |            |                                                                                                                              |
+  | LivingDeathEvent          |   ✅    |            |                                                                                                                              |
+  | LivingExperienceDropEvent |   ✅    |            |                                                                                                                              |
+  | LivingTickEvent           |   ✅    |            |                                                                                                                              |
+  | MobEffectEvent            |   ✅    |     ✅      |                                                                                                                              |
+  | MobSpawnEvent             |   ✅    |     ✅      |                                                                                                                              |
+
+### Client
+  | Event                 | Ported | Sub-events | Reason |
+  |:----------------------|:------:|:----------:|:------:|
+  | RenderLevelStageEvent |   ✅    |     ✅      |        |
+
 </details>
 
 ### FAQ
