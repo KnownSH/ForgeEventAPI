@@ -13,7 +13,6 @@
     "ExplosionMixin",
     "FrostWalkerEnchantmentMixin",
     "ItemStackMixin",
-    "LivingEntityMixin",
     "MobMixin",
     "NaturalSpawnerMixin",
     "PersistentEntitySectionManagerMixin",
@@ -26,6 +25,9 @@
     "SpiderMixin",
     "StartAttackingMixin",
     "server.level.ServerLevelMixin",
+    "world.entity.LivingEntityMixin",
+    "world.entity.animal.horse.AbstractHorseMixin",
+    "world.entity.monster.MagmaCubeMixin",
     "world.level.LevelMixin",
     "world.level.block.BambooStalkBlockMixin",
     "world.level.block.BaseFireBlockMixin",
@@ -50,6 +52,8 @@
     "client.ClientLevelMixin",
     "client.GameRendererMixin",
     "client.LevelRendererMixin",
-    "client.MinecraftMixin"
+    "client.MinecraftMixin",
+    "client.gui.components.BossHealthOverlayMixin",
+    "client.gui.components.DebugScreenOverlayMixin"
   ]
 }

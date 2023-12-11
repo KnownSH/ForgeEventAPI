@@ -1,12 +1,16 @@
 package net.knsh.neoforged.neoforge.client;
 
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.knsh.neoforged.accessors.ForgeMinecraft;
+import net.knsh.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent;
 import net.knsh.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.LerpingBossEvent;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
@@ -27,5 +31,12 @@ public class ClientHooks {
         profiler.push(stage.toString());
         RenderLevelStageEvent.EVENT.invoker().onRenderLevelStageEvent(new RenderLevelStageEvent(stage, levelRenderer, poseStack, projectionMatrix, renderTick, ((ForgeMinecraft) mc).getPartialTick(), camera, frustum));
         profiler.pop();
+    }
+
+    public static CustomizeGuiOverlayEvent.BossEventProgress onCustomizeBossEventProgress(GuiGraphics guiGraphics, Window window, LerpingBossEvent bossInfo, int x, int y, int increment) {
+        CustomizeGuiOverlayEvent.BossEventProgress evt = new CustomizeGuiOverlayEvent.BossEventProgress(window, guiGraphics,
+                ((ForgeMinecraft)Minecraft.getInstance()).getPartialTick(), bossInfo, x, y, increment);
+        evt = CustomizeGuiOverlayEvent.BossEventProgress.EVENT.invoker().onEvent(evt);
+        return evt;
     }
 }

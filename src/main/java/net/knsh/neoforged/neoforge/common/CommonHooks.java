@@ -6,10 +6,7 @@ import net.knsh.neoforged.accessors.ForgeLevel;
 import net.knsh.neoforged.bus.api.ForgeEvent;
 import net.knsh.neoforged.neoforge.common.util.BlockSnapshot;
 import net.knsh.neoforged.neoforge.event.EventHooks;
-import net.knsh.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
-import net.knsh.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.knsh.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.knsh.neoforged.neoforge.event.entity.living.LivingEvent;
+import net.knsh.neoforged.neoforge.event.entity.living.*;
 import net.knsh.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.knsh.neoforged.neoforge.event.level.BlockEvent;
 import net.minecraft.core.BlockPos;
@@ -54,6 +51,16 @@ public class CommonHooks {
         LivingChangeTargetEvent event = new LivingChangeTargetEvent(entity, originalTarget, targetType);
         event = LivingChangeTargetEvent.EVENT.invoker().onLivingChangeTarget(event);
         return event;
+    }
+
+    public static double getEntityVisibilityMultiplier(LivingEntity entity, Entity lookingEntity, double originalMultiplier) {
+        LivingEvent.LivingVisibilityEvent event = new LivingEvent.LivingVisibilityEvent(entity, lookingEntity, originalMultiplier);
+        event = LivingEvent.LivingVisibilityEvent.EVENT.invoker().onEvent(event);
+        return Math.max(0, event.getVisibilityModifier());
+    }
+
+    public static void onLivingJump(LivingEntity entity) {
+        LivingEvent.LivingJumpEvent.EVENT.invoker().onEvent(new LivingEvent.LivingJumpEvent(entity));
     }
 
     public static LivingDamageEvent onLivingDamage(LivingEntity entity, DamageSource src, float amount) {

@@ -1,6 +1,7 @@
-package net.knsh.neoforged.mixin;
+package net.knsh.neoforged.mixin.world.entity;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -24,9 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -37,6 +36,8 @@ public abstract class LivingEntityMixin {
     @Shadow @Nullable protected Player lastHurtByPlayer;
 
     @Shadow public abstract int getExperienceReward();
+
+    @Shadow public abstract void remove(Entity.RemovalReason reason);
 
     @Unique private final LivingEntity entity = (LivingEntity) (Object) this;
 
@@ -107,6 +108,25 @@ public abstract class LivingEntityMixin {
     )
     private boolean neoforged$tickEffects$eventCall(boolean original, @Local MobEffectInstance mobEffectInstance) {
         return !(!original && !MobEffectEvent.Expired.EVENT.invoker().onExpiredEvent(new MobEffectEvent.Expired(entity, mobEffectInstance)).isCanceled());
+    }
+
+    // Living Jump Event
+    @Inject(
+            method = "jumpFromGround",
+            at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/LivingEntity;hasImpulse:Z")
+    )
+    private void neoforged$onLivingJumpEvent(CallbackInfo ci) {
+        CommonHooks.onLivingJump(entity);
+    }
+
+
+    // living visibility event
+    @ModifyReturnValue(
+            method = "getVisibilityPercent",
+            at = @At(value = "RETURN")
+    )
+    private double neoforged$onLivingVisibilityEvent(double original, @Nullable Entity lookingEntity) {
+        return CommonHooks.getEntityVisibilityMultiplier(entity, lookingEntity, original);
     }
 
 
