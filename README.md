@@ -39,7 +39,9 @@ A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
   
   | Event | Ported | Sub-events | Reason |
   | :---- | :----: | :-----: | :-----: |
+  | ArrowLooseEvent | ✅
   | BlockEvent | ✴️ | ✴️ | **BlockToolModificationEvent**, **CreateFluidSourceEvent** not added due to intrusiveness, possible full rewrite eventually.
+  | CriticalHitEvent | ✅
   | CustomizeGuiOverlayEvent | ✅ | ✴️ | **Chat** event not added due to intrusiveness.
   | ExplosionEvent | ✅ | ✅
   | LivingEvent | ✅ | ✅

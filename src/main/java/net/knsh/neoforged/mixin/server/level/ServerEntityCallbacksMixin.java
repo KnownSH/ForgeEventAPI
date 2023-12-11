@@ -1,4 +1,4 @@
-package net.knsh.neoforged.mixin;
+package net.knsh.neoforged.mixin.server.level;
 
 import net.knsh.neoforged.accessors.ForgeEntity;
 import net.minecraft.world.entity.Entity;

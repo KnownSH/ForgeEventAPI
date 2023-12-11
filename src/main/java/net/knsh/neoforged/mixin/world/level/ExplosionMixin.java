@@ -1,4 +1,4 @@
-package net.knsh.neoforged.mixin;
+package net.knsh.neoforged.mixin.world.level;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.knsh.neoforged.neoforge.event.EventHooks;

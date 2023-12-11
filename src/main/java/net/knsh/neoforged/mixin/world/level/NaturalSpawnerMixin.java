@@ -1,4 +1,4 @@
-package net.knsh.neoforged.mixin;
+package net.knsh.neoforged.mixin.world.level;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;

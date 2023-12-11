@@ -1,4 +1,4 @@
-package net.knsh.neoforged.mixin;
+package net.knsh.neoforged.mixin.world.entity;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.knsh.neoforged.neoforge.event.EventHooks;

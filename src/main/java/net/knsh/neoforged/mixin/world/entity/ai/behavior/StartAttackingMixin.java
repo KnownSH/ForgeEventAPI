@@ -1,4 +1,4 @@
-package net.knsh.neoforged.mixin;
+package net.knsh.neoforged.mixin.world.entity.ai.behavior;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;

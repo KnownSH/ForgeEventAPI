@@ -5,6 +5,7 @@ import net.knsh.neoforged.neoforge.common.ToolAction;
 import net.knsh.neoforged.neoforge.common.util.BlockSnapshot;
 import net.knsh.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
 import net.knsh.neoforged.neoforge.event.entity.living.MobSpawnEvent;
+import net.knsh.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
 import net.knsh.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.knsh.neoforged.neoforge.event.level.BlockEvent;
 import net.knsh.neoforged.neoforge.event.level.ExplosionEvent;
@@ -15,6 +16,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.portal.PortalShape;
@@ -84,6 +86,13 @@ public class EventHooks {
         var event = new MobSpawnEvent.SpawnPlacementCheck(entityType, level, spawnType, pos, random, defaultResult);
         event = MobSpawnEvent.SpawnPlacementCheck.EVENT.invoker().onSpawnPlacementCheck(event);
         return event.getResult() == ForgeEvent.Result.DEFAULT ? defaultResult : event.getResult() == ForgeEvent.Result.ALLOW;
+    }
+
+    public static int onArrowLoose(ItemStack stack, Level level, Player player, int charge, boolean hasAmmo) {
+        ArrowLooseEvent event = new ArrowLooseEvent(player, stack, level, charge, hasAmmo);
+        if (ArrowLooseEvent.EVENT.invoker().onEvent(event).isCanceled())
+            return -1;
+        return event.getCharge();
     }
 
     public static boolean checkSpawnPosition(Mob mob, ServerLevelAccessor level, MobSpawnType spawnType) {

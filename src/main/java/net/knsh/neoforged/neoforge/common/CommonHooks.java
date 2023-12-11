@@ -7,6 +7,7 @@ import net.knsh.neoforged.bus.api.ForgeEvent;
 import net.knsh.neoforged.neoforge.common.util.BlockSnapshot;
 import net.knsh.neoforged.neoforge.event.EventHooks;
 import net.knsh.neoforged.neoforge.event.entity.living.*;
+import net.knsh.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import net.knsh.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.knsh.neoforged.neoforge.event.level.BlockEvent;
 import net.minecraft.core.BlockPos;
@@ -36,6 +37,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -57,6 +59,16 @@ public class CommonHooks {
         LivingEvent.LivingVisibilityEvent event = new LivingEvent.LivingVisibilityEvent(entity, lookingEntity, originalMultiplier);
         event = LivingEvent.LivingVisibilityEvent.EVENT.invoker().onEvent(event);
         return Math.max(0, event.getVisibilityModifier());
+    }
+
+    @Nullable
+    public static CriticalHitEvent getCriticalHit(Player player, Entity target, boolean vanillaCritical, float damageModifier) {
+        CriticalHitEvent hitResult = new CriticalHitEvent(player, target, damageModifier, vanillaCritical);
+        hitResult = CriticalHitEvent.EVENT.invoker().onEvent(hitResult);
+        if (hitResult.getResult() == ForgeEvent.Result.ALLOW || (vanillaCritical && hitResult.getResult() == ForgeEvent.Result.DEFAULT)) {
+            return hitResult;
+        }
+        return null;
     }
 
     public static void onLivingJump(LivingEntity entity) {

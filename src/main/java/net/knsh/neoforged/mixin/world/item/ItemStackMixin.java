@@ -1,4 +1,4 @@
-package net.knsh.neoforged.mixin;
+package net.knsh.neoforged.mixin.world.item;
 
 import net.knsh.neoforged.neoforge.common.CommonHooks;
 import net.minecraft.world.InteractionResult;

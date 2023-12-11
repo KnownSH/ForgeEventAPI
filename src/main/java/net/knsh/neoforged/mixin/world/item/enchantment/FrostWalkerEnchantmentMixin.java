@@ -1,4 +1,4 @@
-package net.knsh.neoforged.mixin;
+package net.knsh.neoforged.mixin.world.item.enchantment;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.knsh.neoforged.neoforge.common.util.BlockSnapshot;

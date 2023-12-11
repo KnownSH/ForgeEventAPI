@@ -1,4 +1,4 @@
-package net.knsh.neoforged.mixin;
+package net.knsh.neoforged.mixin.world.level.block;
 
 import net.knsh.neoforged.accessors.ForgeBlock;
 import net.minecraft.core.BlockPos;
