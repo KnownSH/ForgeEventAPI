@@ -41,6 +41,11 @@ public class EventHooks {
         return BlockEvent.EntityPlaceEvent.EVENT.invoker().onBreakEvent(event).isCanceled();
     }
 
+    public static float getBreakSpeed(Player player, BlockState state, float original, BlockPos pos) {
+        PlayerEvent.BreakSpeed event = new PlayerEvent.BreakSpeed(player, state, original, pos);
+        return (PlayerEvent.BreakSpeed.EVENT.invoker().onEvent(event).isCanceled() ? -1 : event.getNewSpeed());
+    }
+
     public static BlockEvent.NeighborNotifyEvent onNeighborNotify(Level level, BlockPos pos, BlockState state, EnumSet<Direction> notifiedSides, boolean forceRedstoneUpdate) {
         BlockEvent.NeighborNotifyEvent event = new BlockEvent.NeighborNotifyEvent(level, pos, state, notifiedSides, forceRedstoneUpdate);
         event = BlockEvent.NeighborNotifyEvent.EVENT.invoker().onEvent(event);
