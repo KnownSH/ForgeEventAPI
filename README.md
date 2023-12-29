@@ -65,7 +65,7 @@ A <b>partial</b> port of the (Neo)Forge Event API that uses the Fabric Event API
 
   #### How does this work?
   
-  The API essentially adapts the NeoForge Bus library to make the SubscribeEvent annotation system compatible with the Fabric Event API. This was achieved by creating a modified version of the NeoForge Bus library, specifically tailored to seamlessly integrate with Fabric's event system. This allows you to use the familiar SubscribeEvent annotation system in the context of the Fabric Event API.
+  The API essentially adapts the NeoForge Bus library to make the SubscribeEvent annotation system compatible with the Fabric Event API. This was achieved by creating a modified version of the NeoForge Bus library, specifically tailored to seamlessly integrate with Fabric's event system. I did this in a simular way to how [Cardboard](https://github.com/CardboardPowered/cardboard) ported Bukkit/Spigot plugin events to fabric.
   <br><br>
   #### Why was this created?
   
